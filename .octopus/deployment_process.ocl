@@ -11,14 +11,14 @@ step "Deploy a Package" {
             Octopus.Action.Package.AutomaticallyUpdateAppSettingsAndConnectionStrings = "True"
             Octopus.Action.Package.DownloadOnTentacle = "False"
             Octopus.Action.Package.FeedId = "Octopus Server (built-in)"
-            Octopus.Action.Package.PackageId = "Test1"
+            Octopus.Action.Package.PackageId = "TestVCS"
         }
         worker_pool_variable = ""
 
         packages {
             acquisition_location = "Server"
             feed = "Octopus Server (built-in)"
-            package_id = "Test1"
+            package_id = "TestVCS"
             properties = {
                 SelectionMode = "immediate"
             }
