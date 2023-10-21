@@ -1,4 +1,5 @@
-step "Deploy a Package" {
+step "deploy-a-package" {
+    name = "Deploy a Package"
     properties = {
         Octopus.Action.TargetRoles = "VCSTestRole"
     }
@@ -10,14 +11,15 @@ step "Deploy a Package" {
             Octopus.Action.Package.AutomaticallyRunConfigurationTransformationFiles = "True"
             Octopus.Action.Package.AutomaticallyUpdateAppSettingsAndConnectionStrings = "True"
             Octopus.Action.Package.DownloadOnTentacle = "False"
-            Octopus.Action.Package.FeedId = "Octopus Server (built-in)"
+            Octopus.Action.Package.FeedId = "octopus-server-built-in"
             Octopus.Action.Package.PackageId = "TestVCS"
+            Octopus.Action.RunOnServer = "false"
         }
         worker_pool_variable = ""
 
         packages {
             acquisition_location = "Server"
-            feed = "Octopus Server (built-in)"
+            feed = "octopus-server-built-in"
             package_id = "TestVCS"
             properties = {
                 SelectionMode = "immediate"
