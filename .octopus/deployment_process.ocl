@@ -80,14 +80,10 @@ step "plan-to-apply-a-terraform-template" {
 
 step "run-a-script" {
     name = "Run a Script"
-    properties = {
-        Octopus.Action.TargetRoles = "docker-swarm"
-    }
 
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "false"
             Octopus.Action.Script.ScriptBody = <<-EOT
                 Write-Host "Add"
                 $Octopus.Action[Plan to apply a Terraform template].Output.TerraformPlanJsonAdd
@@ -103,6 +99,6 @@ step "run-a-script" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "PowerShell"
         }
-        worker_pool_variable = ""
+        worker_pool = "default-worker-pool"
     }
 }
