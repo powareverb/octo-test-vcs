@@ -77,3 +77,32 @@ step "plan-to-apply-a-terraform-template" {
         worker_pool_variable = ""
     }
 }
+
+step "run-a-script" {
+    name = "Run a Script"
+    properties = {
+        Octopus.Action.TargetRoles = "docker-swarm"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                Write-Host "Add"
+                $Octopus.Action[Plan to apply a Terraform template].Output.TerraformPlanJsonAdd
+                
+                Write-Host "Remove"
+                $Octopus.Action[Plan to apply a Terraform template].Output.TerraformPlanJsonRemove
+                
+                Write-Host "Change"
+                $Octopus.Action[Plan to apply a Terraform template].Output.TerraformPlanJsonChange
+                
+                
+                EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "PowerShell"
+        }
+        worker_pool_variable = ""
+    }
+}
