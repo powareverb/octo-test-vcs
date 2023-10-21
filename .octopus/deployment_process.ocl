@@ -85,14 +85,18 @@ step "run-a-script" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.Script.ScriptBody = <<-EOT
+                Write-Host "Plan"
+                $OctopusParameters["Octopus.Action[Plan to apply a Terraform template].Terraform.PlanJsonOutput"]
+                
                 Write-Host "Add"
-                $Octopus.Action["Plan to apply a Terraform template"].Output.TerraformPlanJsonAdd
+                $OctopusParameters["Octopus.Action[Plan to apply a Terraform template].Output.TerraformPlanJsonAdd"]
                 
                 Write-Host "Remove"
-                $Octopus.Action["Plan to apply a Terraform template"].Output.TerraformPlanJsonRemove
+                $OctopusParameters["Octopus.Action[Plan to apply a Terraform template].Output.TerraformPlanJsonRemove"]
                 
                 Write-Host "Change"
-                $Octopus.Action["Plan to apply a Terraform template"].Output.TerraformPlanJsonChange
+                $OctopusParameters["Octopus.Action[Plan to apply a Terraform template].Output.TerraformPlanJsonChange"]
+                
                 
                 
                 EOT
