@@ -115,3 +115,31 @@ step "run-a-script" {
         worker_pool = "default-worker-pool"
     }
 }
+
+step "custom-plan" {
+    name = "Custom Plan"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                terraform plan -out plan.tfplan
+                terraform show -json plan.tfplan > plan.tfplan.json
+                
+                $plan = Get-Content .\plan.tfplan.json | ConvertFrom-Json
+                $drift = $plan.resource_drift | %{ $_.change.actions }
+                $change = $plan.resource_changes | %{ $_.change.actions }
+                
+                
+                $plan
+                $drift
+                $change
+                
+                
+                EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "PowerShell"
+        }
+        worker_pool = "default-worker-pool"
+    }
+}
