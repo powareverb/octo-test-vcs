@@ -98,7 +98,9 @@ step "run-a-script" {
                 $OctopusParameters["Octopus.Action[Plan to apply a Terraform template].Output.TerraformPlanJsonChange"]
                 
                 Write-Host "Plan Output"
+                Write-Host "``````"
                 $OctopusParameters["Octopus.Action[Plan to apply a Terraform template].Output.TerraformPlanOutput"]
+                Write-Host "``````"
                 
                 Write-Host "Plan Output Multiline"
                 #{each output in Octopus.Action[Plan to apply a Terraform template].Output.TerraformPlanLine}
