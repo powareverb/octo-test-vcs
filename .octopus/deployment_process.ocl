@@ -123,17 +123,23 @@ step "custom-plan" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.Script.ScriptBody = <<-EOT
+                terrafrom init
                 terraform plan -out plan.tfplan
                 terraform show -json plan.tfplan > plan.tfplan.json
                 
-                $plan = Get-Content .\plan.tfplan.json | ConvertFrom-Json
+                $planJson = Get-Content .\plan.tfplan.json
+                $plan = $planJson | ConvertFrom-Json
                 $drift = $plan.resource_drift | %{ $_.change.actions }
                 $change = $plan.resource_changes | %{ $_.change.actions }
                 
+                $planJson
+                $drift | ConvertTo-Json
+                $change | ConvertTo-Json
                 
-                $plan
-                $drift
-                $change
+                Set-OctopusVariable -name "TerraformPlanOutputJson" -value $planJson
+                Set-OctopusVariable -name "TerraformPlanDriftJson" -value ($drift | ConvertTo-Json)
+                Set-OctopusVariable -name "TerraformPlanChangeJson" -value ($change | ConvertTo-Json)
+                
                 
                 
                 EOT
