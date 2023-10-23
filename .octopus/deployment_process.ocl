@@ -123,7 +123,7 @@ step "custom-plan" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.Script.ScriptBody = <<-EOT
-                terrafrom init
+                terraform init
                 terraform plan -out plan.tfplan
                 terraform show -json plan.tfplan > plan.tfplan.json
                 
