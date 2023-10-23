@@ -97,6 +97,12 @@ step "run-a-script" {
                 Write-Host "Change"
                 $OctopusParameters["Octopus.Action[Plan to apply a Terraform template].Output.TerraformPlanJsonChange"]
                 
+                Write-Host "Plan Output"
+                $OctopusParameters["Octopus.Action[Plan to apply a Terraform template].Output.TerraformPlanOutput"]
+                
+                #{each output in Octopus.Action[Plan Apply].Output.TerraformPlanLine}
+                Write-Host 'JSON Output line #{output}: #{output.JSON}'
+                #{/each}
                 
                 
                 EOT
